@@ -1,0 +1,239 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <title>Admin History & Ticket Status</title>
+    <link rel="icon" type="image/png" href="/IGLLOGO.png" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+    ></script>
+  </head>
+  <body class="bg-slate-500">
+    <header class="fixed top-0 shadow w-full bg-white">
+      <nav class="py-3 px-3">
+        <div class="grid-cols-12 flex">
+          <div class="w-full col-span-6 flex">
+            <span class="inline-flex justify-start text-2xl w-full">
+              History & Ticket Status</span>
+          </div>
+          <div class="flex">
+            <div class="px-2">
+              <button
+                onclick="show('accept')"
+                class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-green-600 hover:text-gray-600 hover:bg-green-300"
+              >
+                Accepted
+              </button>
+            </div>
+            <div>
+              <button
+                onclick="show('reject')"
+                class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-red-600 hover:text-gray-600 hover:bg-red-300"
+              >
+                Rejected
+              </button>
+            </div>
+            <div class="px-1">
+              <a
+                type="submit"
+                href="/admin"
+                class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-gray-600 hover:text-gray-800 hover:bg-gray-300"
+              >
+                x
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="md:py-8 py-12"></div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Requestor</th>
+            <th scope="col" class="px-6 py-3">Department Name</th>
+            <th scope="col" class="px-6 py-3">SAP ID</th>
+            <th scope="col" class="px-6 py-3">Authorization Request</th>
+            <th scope="col" class="px-6 py-3">Geographical Area</th>
+            <th scope="col" class="px-6 py-3">System Type</th>
+            <th scope="col" class="px-6 py-3">Client</th>
+            <th scope="col" class="px-6 py-3">Date received</th>
+            <th scope="col" class="px-6 py-3">Authorized by</th>
+            <th scope="col" class="px-6 py-3">Ticket Status</th>
+          </tr>
+        </thead>
+        <tbody id="accept">
+          {{#each accept}}
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td
+                scope="row"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {{Requestor}}
+              </td>
+              <td class="px-6 py-4">{{DeptName}}</td>
+              <td class="px-6 py-4">{{SAPID}}</td>
+              <td class="px-6 py-4">{{Authreq}}</td>
+              <td class="px-6 py-4">{{Areaname}}</td>
+              <td class="px-6 py-4">{{systype}}</td>
+              <td class="px-6 py-4">{{Client}}</td>
+              <td class="px-6 py-4">{{Date}}</td>
+              <td class="px-6 py-4">{{authgiven}}</td>
+              <td>
+                <form
+                  id="toggleForm_{{_id}}"
+                  action="/toggle"
+                  method="POST"
+                  class="flex flex-col items-center mb-4"
+                >
+                  <!-- Hidden input to store the toggle state -->
+                  <input
+                    type="hidden"
+                    id="toggleState_{{_id}}"
+                    name="toggleState"
+                    value="{{ticketstatus}}"
+                  />
+
+                  <!-- Hidden input to store the _id from backend -->
+                  <input
+                    type="hidden"
+                    id="userId_{{_id}}"
+                    name="userId"
+                    value="{{_id}}"
+                  />
+                  <!-- _id for each item -->
+
+                  <!-- Toggle button -->
+                  <div class="flex items-center">
+                    <!-- Toggle button container -->
+                    <div
+                      id="toggleButton_{{_id}}"
+                      class="w-16 h-8 bg-gray-300 rounded-full p-1 flex items-center cursor-pointer transition-all duration-300"
+                      onclick="toggle('{{_id}}')"
+                    >
+                      <!-- Circle inside the toggle -->
+                      <div
+                        id="toggleCircle_{{_id}}"
+                        class="bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300"
+                      ></div>
+                    </div>
+
+                    <!-- Tick and Cross icons -->
+                    <div
+                      id="toggleStatus_{{_id}}"
+                      class="ml-3 text-gray-500 text-xl"
+                    >
+                      <span id="cross_{{_id}}" class="block">❌</span>
+                      <span id="tick_{{_id}}" class="hidden">✔️</span>
+                    </div>
+                  </div>
+                </form></td>
+            </tr>
+          {{/each}}
+        </tbody>
+        <tbody id="reject" style="display: none;">
+          {{#each reject}}
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td
+                scope="row"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {{Requestor}}
+              </td>
+              <td class="px-6 py-4">{{DeptName}}</td>
+              <td class="px-6 py-4">{{SAPID}}</td>
+              <td class="px-6 py-4">{{Authreq}}</td>
+              <td class="px-6 py-4">{{Areaname}}</td>
+              <td class="px-6 py-4">{{systype}}</td>
+              <td class="px-6 py-4">{{Client}}</td>
+              <td class="px-6 py-4">{{Date}}</td>
+              <td class="px-6 py-4">{{authgiven}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{!-- prettier-ignore --}}
+    <script>
+      function show(filter) { if (filter == "accept") {
+      document.getElementById("accept").style.display = "table-row-group";
+      document.getElementById("reject").style.display = "none"; } else {
+      document.getElementById("accept").style.display = "none";
+      document.getElementById("reject").style.display = "table-row-group"; } }
+      window.onload = function() {
+        initializeToggles();
+      };
+
+      function initializeToggles() {
+        const toggleForms = document.querySelectorAll('form[id^="toggleForm_"]');
+
+        toggleForms.forEach((form) => {
+          const id = form.id.split('_')[1]; 
+
+          const toggleButton = document.getElementById('toggleButton_' + id);
+          const toggleCircle = document.getElementById('toggleCircle_' + id);
+          const tick = document.getElementById('tick_' + id);
+          const cross = document.getElementById('cross_' + id);
+          const toggleState = document.getElementById('toggleState_' + id).value;
+          if (toggleState === 'open') {
+            toggleCircle.classList.remove('translate-x-8');
+            toggleButton.classList.remove('bg-green-500');
+            toggleButton.classList.add('bg-gray-300');
+            tick.classList.add('hidden');
+            cross.classList.remove('hidden');
+          } else {
+            toggleCircle.classList.add('translate-x-8');
+            toggleButton.classList.remove('bg-gray-300');
+            toggleButton.classList.add('bg-green-500');
+            tick.classList.remove('hidden');
+            cross.classList.add('hidden');
+          }
+        });
+      }
+
+      function toggle(id) {
+        const toggleButton = document.getElementById('toggleButton_' + id);
+        const toggleCircle = document.getElementById('toggleCircle_' + id);
+        const tick = document.getElementById('tick_' + id);
+        const cross = document.getElementById('cross_' + id);
+        const toggleState = document.getElementById('toggleState_' + id);
+        const toggleForm = document.getElementById('toggleForm_' + id);
+        let isOn = toggleState.value;
+        if (isOn === "closed") {
+          toggleState.value = "closed";
+          toggleCircle.classList.add('translate-x-8');
+          toggleButton.classList.remove('bg-gray-300');
+          toggleButton.classList.add('bg-green-500');
+          tick.classList.remove('hidden');
+          cross.classList.add('hidden');
+        } else {
+          toggleState.value = "open";
+          toggleCircle.classList.remove('translate-x-8');
+          toggleButton.classList.remove('bg-green-500');
+          toggleButton.classList.add('bg-gray-300');
+          tick.classList.add('hidden');
+          cross.classList.remove('hidden');
+        }
+        toggleForm.submit();
+      }
+  </script>
+
+  </body>
+</html>

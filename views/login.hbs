@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="/IGLLOGO.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+    ></script>
+  </head>
+  <body class="bg-gray-200">
+    <div class="py-40">
+      <center>
+        <div class="md:w-1/2 bg-white shadow-lg rounded-lg">
+          <div class="flex px-2 py-2 grid-cols-3">
+            <div class="text-3xl w-full px-2 py-2 col-span-1">
+              <span>Login</span>
+            </div>
+          </div>
+          <hr />
+          <form action="/login" method="post">
+            <div class="px-3 py-3 text-left">
+              <div class="py-2">
+                <label
+                  for="newname"
+                  class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Enter SAP ID</label><br />
+                <label class="text-red-600">{{errmsg}}</label>
+                <input
+                  type="text"
+                  id="newname"
+                  name="SAPID"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Please enter your SAP ID to login"
+                  required
+                />
+              </div>
+              <div class="py-2">
+                <label
+                  for="newname"
+                  class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Enter Your Password</label><br />
+                <label class="text-red-600">{{errmsgpass}}</label>
+                <input
+                  type="password"
+                  id="newname"
+                  name="Pass"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Please enter your Password"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              >
+                LogIn
+              </button>
+
+            </div>
+            <a
+              href="/signup"
+              class="text-blue-500 hover:underline"
+            >Signup!</a><br />
+            <a
+              href="/passwordreset"
+              class="text-blue-500 hover:underline"
+            >Forgot Password?</a>
+          </form>
+        </div>
+      </center>
+    </div>
+  </body>
+</html>

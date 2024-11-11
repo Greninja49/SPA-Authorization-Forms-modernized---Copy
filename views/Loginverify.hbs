@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet"/>
+<title>Email Verification</title>
+<link rel="icon" type="image/png" href="/IGLLOGO.png" />
+</head>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+<body onload="errmsg('{{Errmsg}}')">
+<section class="min-h-screen bg-gray-200">
+  <div class="mx-auto h-full">
+    <div class="flex justify-center items-center min-h-screen py-5">
+      <div class="w-full max-w-4xl ">
+        <div class="bg-white text-black rounded-3xl shadow-lg overflow-hidden">
+          <div class="p-8 md:p-12 flex flex-col md:flex-row justify-center h-full">
+
+            <div class="md:w-1/2 order-2 md:order-1 flex flex-col ">
+              <p class="text-center text-3xl font-bold ">Email Verification</p>
+              <form action="/Emailverificationotp" method="post" >
+              <div class="py-2">
+                <label for="OTP" class="mb-2 text-sm font-medium text-black">Enter OTP</label><br />
+                <label class="text-red-600 hidden" id="err">{{Errmsg}}</label>
+                <input
+                  type="text"
+                  id="OTP"
+                  name="OTP"
+                  class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Please sent to your Email"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="submitBtn"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
+
+              >
+                Submit
+              </button><br>
+              <a href="/signup" class=" text-blue-500 hover:underline">Refill Signup Info</a>
+
+
+            <div class="flex px-3 items-center rounded-lg justify-center w-full order-1 md:order-2">
+              <img src="./image.png" class="rounded-lg w-full" alt="Sample image">
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+<script>
+    function errmsg(State){
+        if(State==""){
+            document.getElementById("err").style.display="none"
+        }
+        else{
+            document.getElementById("err").style.display="block"
+        }
+    }
+</script>
+</html>

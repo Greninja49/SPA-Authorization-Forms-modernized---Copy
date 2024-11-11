@@ -1,0 +1,516 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+    ></script>
+    <title>SAP authorization form</title>
+    <link rel="icon" type="image/png" href="/IGLLOGO.png" />
+  </head>
+  <body onload="togglediv();disablesubmit();togglevalue()">
+    <header class="fixed top-0 shadow w-full bg-white">
+      <nav class="py-3 px-3">
+        <div class="grid-cols-12 flex">
+          <div class="w-full col-span-6">
+            <span class="inline-flex justify-start text-2xl w-full">
+              SAP Authorization Form</span>
+          </div>
+          <div class="sm:col-span-6">
+            <span
+              class="text-xl py-4 justify-end w-full"
+              id="CurrentDate"
+            >{{time}}</span>
+          </div>
+          <div class="px-1">
+            <a
+              type="submit"
+              href="/dashboard"
+              class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-gray-600 hover:text-gray-800 hover:bg-gray-300"
+            >
+              x
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="sm:py-16 py-32 px-3">
+      <form action="/submit" method="POST" id="SPAform">
+        <div class="shadow">
+          <div class="px-3 py-3 grid gap-6 mb-6 md:grid-cols-12">
+            <div class="md:col-span-3">
+              <label
+                for="first_name"
+                class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Requestor</label>
+              <input
+                type="text"
+                id="first_name2"
+                name="first_name2"
+                disabled="true"
+                value="{{Rname}}"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{Rname}}"
+                required="true"
+              />
+            </div>
+
+            <div class="md:col-span-3">
+              <label
+                for="SAP"
+                class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >SAP Login ID</label>
+              <input
+                type="text"
+                id="SAP2"
+                name="SAP2"
+                disabled="true"
+                value={{SAPID}}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder={{SAPID}}
+                required="true"
+              />
+            </div>
+            <div class="md:col-span-3">
+              <label
+                for="SAP"
+                class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Department</label>
+              <input
+                type="text"
+                id="SAP2"
+                name="SAP2"
+                disabled="true"
+                value="{{{dept_Name}}}"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{{dept_Name}}}"
+                required="true"
+              />
+            </div>
+            <div class="md:col-span-3">
+              <label
+                for="SAP"
+                class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Geographical Area</label>
+              <input
+                type="text"
+                id="SAP2"
+                name="SAP2"
+                disabled="true"
+                value="{{GA}}"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{GA}}"
+                required="true"
+              />
+            </div>
+          </div>
+          <div class="px-3 py-3 grid gap-6 mb-6 sm:grid-cols-12">
+            <div class="py-3 px-3 shadow sm:col-span-4">
+              <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
+                Authorization Request Type
+              </h3>
+              <ul
+                class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              >
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="authtrans"
+                      type="checkbox"
+                      name="auth"
+                      value="Transaction"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Transaction
+                    </label>
+                  </div>
+                  <Div class="px-2 py-2" id="transtext">
+                    <input
+                      type="text"
+                      id="othertrans"
+                      name="othertrans"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter Transaction Details"
+                    />
+                  </Div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="report"
+                      type="checkbox"
+                      name="auth"
+                      value="Report"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Report</label>
+                  </div>
+                  <Div class="px-2 py-2" id="reporttext">
+                    <input
+                      type="text"
+                      id="otherreport"
+                      name="otherreport"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter Transaction Details"
+                    />
+                  </Div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="otherauth"
+                      type="checkbox"
+                      name="auth"
+                      value="other"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Other object/Activity</label>
+                  </div>
+                  <Div class="px-2 py-2" id="authtext">
+                    <input
+                      type="text"
+                      id="other auth"
+                      name="other auth"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter object/Activity"
+                    />
+                  </Div>
+
+                </li>
+              </ul>
+              <div
+                class="error text-red-600 px-3 py-3"
+                id="error-messageauth"
+              ></div>
+            </div>
+            <div class="py-3 px-3 shadow sm:col-span-4">
+              <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
+                System
+              </h3>
+              <ul
+                class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              >
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="System"
+                      type="radio"
+                      name="sys"
+                      value="DEV"
+                      onclick="togglediv();disablesubmit()"
+                      required
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >DEV
+                    </label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="System"
+                      type="radio"
+                      name="sys"
+                      value="QAS"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="Client"
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >QAS</label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="System"
+                      type="radio"
+                      name="sys"
+                      value="PRD"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >PRD</label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="othersys"
+                      type="radio"
+                      name="sys"
+                      value="other"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="list-radio-passport"
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Other:</label>
+
+                  </div>
+                  <Div class="px-2 py-2" id="systext">
+                    <input
+                      type="text"
+                      id="other sys"
+                      name="other sys"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter System"
+                    />
+                  </Div>
+                </li>
+              </ul>
+            </div>
+            <div class="py-3 px-3 shadow sm:col-span-4">
+              <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
+                Client
+              </h3>
+              <ul
+                class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              >
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="Client"
+                      type="checkbox"
+                      name="Cl"
+                      value="120"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >120
+                    </label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="Client"
+                      type="checkbox"
+                      name="Cl"
+                      value="130"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="Client"
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >130</label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="list-radio-military"
+                      type="checkbox"
+                      name="Cl"
+                      value="220"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >220</label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="list-radio-passport"
+                      type="checkbox"
+                      name="Cl"
+                      value="300"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="list-radio-passport"
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >300</label>
+                  </div>
+                </li>
+                <li
+                  class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                >
+                  <div class="flex items-center ps-3">
+                    <input
+                      id="othercl"
+                      type="checkbox"
+                      name="Cl"
+                      value="other"
+                      onclick="togglediv();disablesubmit()"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="list-radio-passport"
+                      class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Other:</label>
+
+                  </div>
+                  <Div class="px-2 py-2" id="cltext">
+                    <input
+                      type="text"
+                      id="other cl"
+                      name="other cl"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter Client Type"
+                    />
+                    <input type="hidden" id="hiddeninput" name="ddtn" />
+                  </Div>
+
+                </li>
+              </ul>
+              <div
+                class="error text-red-600 px-3 py-3"
+                id="error-message"
+              ></div>
+            </div>
+          </div>
+          <div class="grid px-3">
+            <button
+              type="submit"
+              id="submit"
+              onclick="togglevalue();"
+              class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    {{!-- prettier-ignore --}}
+    <script>
+      function togglediv(){ if(document.getElementById("otherauth").checked){
+        document.getElementById("authtext").style.display="block"; } 
+        else{
+        document.getElementById("authtext").style.display="none" }
+        if(document.getElementById("authtrans").checked){
+        document.getElementById("transtext").style.display="block"; } 
+        else{
+        document.getElementById("transtext").style.display="none" }
+        if(document.getElementById("report").checked){
+        document.getElementById("reporttext").style.display="block"; } 
+        else{
+        document.getElementById("reporttext").style.display="none" }
+        if(document.getElementById("othersys").checked){
+        document.getElementById("systext").style.display="block" ;} 
+        else{
+        document.getElementById("systext").style.display="none" 
+        }
+        if(document.getElementById("othercl").checked){
+        document.getElementById("cltext").style.display="block" ;} 
+        else{
+        document.getElementById("cltext").style.display="none" } }
+
+      function togglevalue(){
+        if(document.getElementById("submit").disabled==true){
+          document.getElementById("submit").style.backgroundColor="grey"
+        }
+        else{
+        if(document.getElementById("authtrans").checked){
+        document.getElementById("authtrans").value = "Transaction:["+document.getElementById("othertrans").value+"]" }
+        if(document.getElementById("report").checked){
+        document.getElementById("report").value = "Report:["+document.getElementById("otherreport").value+"]" }
+        if(document.getElementById("otherauth").checked){
+        document.getElementById("otherauth").value = document.getElementById("other auth").value } 
+        if(document.getElementById("othersys").checked){
+        document.getElementById("othersys").value = document.getElementById("other sys").value} 
+        if(document.getElementById("othercl").checked){
+        document.getElementById("othercl").value = document.getElementById("other cl").value}
+        }
+      } 
+      function disablesubmit() {
+        const checkboxesauth = document.querySelectorAll('input[name="auth"]');
+        const isAnyCheckedauth = Array.from(checkboxesauth).some(checkbox => checkbox.checked);
+        
+        const checkboxesCl = document.querySelectorAll('input[name="Cl"]');
+        const isAnyCheckedCl = Array.from(checkboxesCl).some(checkbox => checkbox.checked);
+        
+        if (isAnyCheckedauth && isAnyCheckedCl) {
+            document.getElementById("submit").disabled = false;
+            document.getElementById("submit").style.backgroundColor = "blue";
+        } else {
+            document.getElementById("submit").disabled = true;
+            document.getElementById("submit").style.backgroundColor = "gray";
+        }
+    }
+       function validateCheckboxesCl() {
+        const checkboxes = document.querySelectorAll('input[name="Cl"]');
+        const errorMessage = document.getElementById('error-message');
+        let isChecked = false;
+
+        for (const checkbox of checkboxes) {
+            if (checkbox.checked) {
+                isChecked = true;
+                break;
+            }
+        }
+        if (!isChecked) {
+            errorMessage.textContent = 'At least one checkbox must be checked.';
+            return false;
+        }
+
+        errorMessage.textContent = ''; 
+        return true;
+    }
+
+    document.getElementById('SPAform').addEventListener('submit', function(event) {
+        const isClValid = validateCheckboxesCl();
+        const isAreasValid = validateCheckboxesareas();
+        const isAuthTypeValid = validateCheckboxesauthtype();
+        if (!isClValid || !isAreasValid || !isAuthTypeValid) {
+            event.preventDefault();
+        }
+    });
+
+    </script>
+  </body>
+</html>

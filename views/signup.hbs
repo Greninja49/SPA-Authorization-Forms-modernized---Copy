@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet"/>
+<title>Signup Page</title>
+<link rel="icon" type="image/png" href="/IGLLOGO.png" />
+</head>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+<body onload="errmsg('{{State}}')">
+<section class="min-h-screen bg-gray-200">
+  <div class="mx-auto h-full">
+    <div class="flex justify-center items-center min-h-screen py-5">
+      <div class="w-full max-w-4xl ">
+        <div class="bg-white text-black rounded-3xl shadow-lg overflow-hidden">
+          <div class="p-8 md:p-12 flex flex-col md:flex-row justify-center h-full">
+
+            <div class="md:w-1/2 order-2 md:order-1 flex flex-col ">
+              <p class="text-center text-3xl font-bold ">Sign up</p>
+              <form action="/Emailverification" method="post" >
+              <div class="py-2">
+                <label for="newname" class="mb-2 text-sm font-medium text-black">Enter Your Name</label><br />
+                <input
+                  type="text"
+                  id="newname"
+                  name="Name"
+                  class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Please enter your Name"
+                  required
+                />
+              </div>
+              <div class="py-2">
+                <label for="SAPID" class="mb-2 text-sm font-medium text-black">Enter Your SAPID (if you have one) </label><br />
+                <input
+                  type="text"
+                  id="SAPID"
+                  name="SAPID"
+                  class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Please enter your Existing SAPID"
+                  
+                />
+              </div>
+              <div class="py-2 ">
+                <label for="newEmail" class="mb-2 text-sm font-medium text-black">Enter Your Email</label><br />
+                <label class="text-red-600" id="err">{{Errmsg}}</label>
+                <input
+                  type="email"
+                  id="newEmail"
+                  name="Email"
+                  value="{{Email}}"
+                  class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5 pr-16 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Please enter your Email"
+                  required
+                />
+                
+              </div>
+              <div class="py-2">
+                <label
+                  for="dropdownDefaultButton"
+                  class="mb-2 text-sm font-medium text-gray-900"
+                  >Please Select Your Department</label>
+                <button
+                  id="dropdownDefaultButton"
+                  data-dropdown-toggle="dropdown"
+                  onclick="showddt()"
+                  class="text-white bg-blue-700 justify-center hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex w-full items-center"
+                  type="button"
+                >
+                  <span id="dropdowntext" name="dropdowntext" value="Dropdown button"
+                    >Department List</span
+                  >
+                  <span>
+                    <svg
+                      class="w-2.5 h-2.5 ms-3 justify-end"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                 <div
+                    id="dropdown"
+                    class="w-60 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow "
+                  >
+                    <ul
+                      class="py-2 text-sm text-gray-700 overflow-y-scroll max-h-40"
+                      id="Departmentlist"
+                      aria-labelledby="dropdownDefaultButton"
+                    >
+                      <li class="w-full">
+                        {{#each dept_Name}}<button
+                          type="button"
+                          id="{{ this }}"
+                          onclick="toggleddt(this.id);setvalue();hideddt()"
+                          class="block px-4 py-2 hover:bg-gray-100 w-full "
+                        >
+                          {{ this }}</button
+                        >{{/each}}
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+              <div class="py-2">
+                <label
+                  for="first_name"
+                  class="mb-2 text-sm font-medium text-gray-900 "
+                  >Please Select your Areas</label
+                >
+                <button
+                  id="dropdownSearchButton"
+                  data-dropdown-toggle="dropdownSearch"
+                  class="text-white bg-blue-700 justify-center hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex w-full items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  type="button"
+                >
+                  Area List
+                  <svg
+                    class="w-2.5 h-2.5 ms-2.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div
+                id="dropdownSearch"
+                class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700"
+              >
+                <ul
+                  class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownSearchButton"
+                >
+                  <li class="py-2">
+                    {{#each GA}}
+                    <div
+                      class="items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                    >
+                      <input
+                        id="{{ this }}"
+                        type="checkbox"
+                        name="geo"
+                        onchange="validateCheckboxesareas()"
+                        value="{{ this }}"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        for="this"
+                        class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                        >{{ this }}</label
+                      >
+                    </div>
+                    <hr />
+                    {{/each}}
+                  </li>
+                </ul>
+              </div>
+              <div class="error hidden text-red-600 px-3 py-3" id="error-messagearea"></div>
+              <div class="py-2">
+                <label for="newPass" class="mb-2 text-sm font-medium text-black">Enter Your Password</label><br />
+                <input
+                  type="password"
+                  id="newPass"
+                  name="password"
+                  class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Please enter your Password"
+                  required
+                />
+              </div>
+
+              <div id="message" class="hidden">
+                <label class="text-red-600">Password must contain the following:</label><br>
+                <label class="text-red-600" id="letter">A <b>lowercase</b> letter</label><br>
+                <label class="text-red-600" id="capital">A <b>capital (uppercase)</b> letter</label><br>
+                <label class="text-red-600" id="number">A <b>number</b></label><br>
+                <label class="text-red-600" id="length">Minimum <b>8 characters</b></label><br>
+              </div>
+
+              <button
+                type="submit"
+                id="submitBtn"
+                onclick="validateCheckboxesareas();disable_alert();"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
+
+              >
+                Signup
+              </button><br>
+              <a href="/" class=" text-blue-500 hover:underline">Already a user? LogIn!</a>
+            </div>
+
+            <div class="flex px-3 items-center rounded-lg justify-center w-full order-1 md:order-2">
+              <img src="./image.png" class="rounded-lg w-full" alt="Sample image">
+            </div>
+            <input type="text" class="hidden" name="Dept" id="hiddeninput"/>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  var myInput = document.getElementById("newPass");
+  var submitBtn = document.getElementById("submitBtn");
+  var letter = document.getElementById("letter");
+  var capital = document.getElementById("capital");
+  var number = document.getElementById("number");
+  var length = document.getElementById("length");
+
+  var isLowercaseValid = false;
+  var isUppercaseValid = false;
+  var isNumberValid = false;
+  var isLengthValid = false;
+
+  myInput.onfocus = function () {
+    document.getElementById("message").style.display = "block";
+  };
+
+  myInput.onblur = function () {
+    document.getElementById("message").style.display = "none";
+  };
+
+  myInput.onkeyup = function () {
+    var lowerCaseLetters = /[a-z]/g;
+    if (myInput.value.match(lowerCaseLetters)) {
+      letter.style.color = "green";
+      isLowercaseValid = true;
+    } else {
+      letter.style.color = "red";
+      isLowercaseValid = false;
+    }
+
+    var upperCaseLetters = /[A-Z]/g;
+    if (myInput.value.match(upperCaseLetters)) {
+      capital.style.color = "green";
+      isUppercaseValid = true;
+    } else {
+      capital.style.color = "red";
+      isUppercaseValid = false;
+    }
+
+    var numbers = /[0-9]/g;
+    if (myInput.value.match(numbers)) {
+      number.style.color = "green";
+      isNumberValid = true;
+    } else {
+      number.style.color = "red";
+      isNumberValid = false;
+    }
+
+    if (myInput.value.length >= 8) {
+      length.style.color = "green";
+      isLengthValid = true;
+    } else {
+      length.style.color = "red";
+      isLengthValid = false;
+    }
+
+    if (isLowercaseValid && isUppercaseValid && isNumberValid && isLengthValid) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('disabled:bg-gray-400');
+    } else {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('disabled:bg-gray-400');
+    }
+  };
+  function errmsg(option){
+    if(option==="open"){
+        document.getElementById("err").display="block"
+    }
+    else{
+        document.getElementById("err").display="none"
+    }
+  }
+  function validateCheckboxesareas() {
+        const checkboxes = document.querySelectorAll('input[name="geo"]');
+        const errorMessage = document.getElementById('error-messagearea');
+        let isChecked = false;
+
+        // Check if at least one checkbox is checked
+        for (const checkbox of checkboxes) {
+            if (checkbox.checked) {
+                isChecked = true;
+                errorMessage.style.display='none'
+                break;
+            }
+        }
+
+        // Show error message if no checkbox is checked
+        if (!isChecked) {
+            errorMessage.style.display='block'
+            errorMessage.textContent = 'At least one checkbox must be checked.';
+            return false; // Prevent form submission
+        }
+
+        errorMessage.textContent = ''; // Clear error message
+        return true; // Allow form submission
+    }
+  function toggleddt(ddtoption){
+    document.getElementById("dropdowntext").innerHTML=ddtoption
+  }
+  function setvalue(){
+    document.getElementById("hiddeninput").value=document.getElementById("dropdowntext").innerHTML
+  }
+  function disable_alert(){
+    if(document.getElementById("dropdowntext").innerHTML=="Department List"){
+      event.preventDefault()
+      alert("Please Select a department");
+    }
+  }
+  function hideddt(){
+    document.getElementById("dropdown").style.display="none"
+  }
+  function showddt(){
+    document.getElementById("dropdown").style.display="block"
+  }
+</script>
+</body>
+</html>

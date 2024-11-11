@@ -1,0 +1,133 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <title>HOD history</title>
+    <link rel="icon" type="image/png" href="/IGLLOGO.png" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+    ></script>
+  </head>
+  <body class="bg-slate-500">
+    <header class="fixed top-0 shadow w-full bg-white">
+      <nav class="py-3 px-3">
+        <div class="grid-cols-12 flex">
+          <div class="w-full col-span-6 flex">
+            <span class="inline-flex justify-start text-2xl w-full">
+              History</span>
+          </div>
+          <div class="flex">
+            <div class="px-2">
+              <button
+                onclick="show('accept')"
+                class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-green-600 hover:text-gray-600 hover:bg-green-300"
+              >
+                Accepted
+              </button>
+            </div>
+            <div>
+              <button
+                onclick="show('reject')"
+                class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-red-600 hover:text-gray-600 hover:bg-red-300"
+              >
+                Rejected
+              </button>
+            </div>
+            <div class="px-1">
+              <a
+                type="submit"
+                href="/HODdashboard"
+                class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-gray-600 hover:text-gray-800 hover:bg-gray-300"
+              >
+                x
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="py-8"></div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Requestor</th>
+            <th scope="col" class="px-6 py-3">Department Name</th>
+            <th scope="col" class="px-6 py-3">SAP ID</th>
+            <th scope="col" class="px-6 py-3">Authorization Request</th>
+            <th scope="col" class="px-6 py-3">Geographical Area</th>
+            <th scope="col" class="px-6 py-3">System Type</th>
+            <th scope="col" class="px-6 py-3">Client</th>
+            <th scope="col" class="px-6 py-3">Date received</th>
+            <th scope="col" class="px-6 py-3">Authorized by</th>
+            <th scope="col" class="px-6 py-3">Ticket Status</th>
+          </tr>
+        </thead>
+        <tbody id="accept">
+          {{#each accept}}
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td
+                scope="row"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {{Requestor}}
+              </td>
+              <td class="px-6 py-4">{{DeptName}}</td>
+              <td class="px-6 py-4">{{SAPID}}</td>
+              <td class="px-6 py-4">{{Authreq}}</td>
+              <td class="px-6 py-4">{{Areaname}}</td>
+              <td class="px-6 py-4">{{systype}}</td>
+              <td class="px-6 py-4">{{Client}}</td>
+              <td class="px-6 py-4">{{Date}}</td>
+              <td class="px-6 py-4">{{authgiven}}</td>
+              <td class="px-6 py-4">{{ticketstatus}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+        <tbody id="reject" style="display: none;">
+          {{#each reject}}
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td
+                scope="row"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {{Requestor}}
+              </td>
+              <td class="px-6 py-4">{{DeptName}}</td>
+              <td class="px-6 py-4">{{SAPID}}</td>
+              <td class="px-6 py-4">{{Authreq}}</td>
+              <td class="px-6 py-4">{{Areaname}}</td>
+              <td class="px-6 py-4">{{systype}}</td>
+              <td class="px-6 py-4">{{Client}}</td>
+              <td class="px-6 py-4">{{Date}}</td>
+              <td class="px-6 py-4">{{authgiven}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <script>
+      function show(filter) { if (filter == "accept") {
+      document.getElementById("accept").style.display = "table-row-group";
+      document.getElementById("reject").style.display = "none"; } else {
+      document.getElementById("accept").style.display = "none";
+      document.getElementById("reject").style.display = "table-row-group"; } }
+    </script>
+  </body>
+</html>

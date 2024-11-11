@@ -1,0 +1,97 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Data</title>
+    <link rel="icon" type="image/png" href="/IGLLOGO.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+    ></script>
+  </head>
+  <body>
+    <div
+      id="info"
+      class="bg-black fixed top-0 w-full h-full bg-opacity-50 py-4 px-4 display-none"
+    >
+      <div class="bg-white shadow-lg rounded-lg">
+        <div class="flex grid-cols-3">
+          <div class="text-3xl w-full px-2 py-2 col-span-6 justify-start">
+            <span>Form Details</span>
+          </div>
+          <div class="flex py-3">
+
+            <div class="px-2 col-span-1">
+              <a href="/admin"><button
+                  onclick="giveinfo('close')"
+                  class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-black hover:text-gray-600"
+                >
+                  x
+                </button></a>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="px-2 py-3 overflow-x-scroll">
+          <div>
+            <table>
+              {{#each openform}}
+                <tr>
+                  <th class="px-5 py-3 text-left">Name</th>
+                  <td class="px-5 py-3 text-left">{{Requestor}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">SAP ID</th>
+                  <td class="px-5 py-3 text-left">{{SAPID}} </td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">Department Name</th>
+                  <td class="px-5 py-3 text-left">{{DeptName}}</td>
+                </tr><tr>
+                  <th class="px-5 py-3 text-left">Client</th>
+                  <td class="px-5 py-3 text-left">{{Client}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">Authorization request</th>
+                  <td class="px-5 py-3 text-left">{{Authreq}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">Authorized by</th>
+                  <td class="px-5 py-3 text-left">{{authgiven}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">Authorization status</th>
+                  <td class="px-5 py-3 text-left">{{authstatus}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">Area Name</th>
+                  <td class="px-5 py-3 text-left">{{Areaname}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">System Type</th>
+                  <td class="px-5 py-3 text-left">{{systype}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">Date</th>
+                  <td class="px-5 py-3 text-left">{{Date}}</td>
+                </tr>
+                <tr>
+                  <th class="px-5 py-3 text-left">HOD status</th>
+                  <td class="px-5 py-3 text-left">{{HODsubtag}}</td>
+                </tr>
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

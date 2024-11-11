@@ -1,0 +1,600 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/IGLLOGO.png" />
+    <title>Admin {{adminname}}</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+    ></script>
+  </head>
+  <body onload="togglediv('close');Errmsg('{{Err}}')">
+    <header class="fixed top-0 shadow w-full bg-white">
+      <nav class="py-3 sm:px-3">
+        <div class="grid-cols-12">
+          <div class="flex">
+            <button
+              data-drawer-target="default-sidebar"
+              data-drawer-toggle="default-sidebar"
+              aria-controls="default-sidebar"
+              type="button"
+              class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            >
+              <span class="sr-only">Open sidebar</span>
+              <svg
+                class="w-6 h-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                ></path>
+              </svg>
+            </button>
+
+            <span class="md:hidden justify-start text-2xl py-3 w-full">
+              Authorization Requests</span></div>
+          <div class="flex grid-col-12">
+            <div class="w-full"></div>
+            <div class="col-span-2">
+              <form action="/stateaccept" method="post" id="accept">
+                <button
+                  type="submit"
+                  onclick="checkempty()"
+                  class="font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-green-600 hover:text-gray-600 hover:bg-green-300"
+                >
+                  Accept
+                </button>
+              </form>
+            </div>
+            <div class="col-span-2">
+              <form action="/statereject" method="post" id="reject">
+                <button
+                  onclick="check();checkemptyreject()"
+                  type="submit"
+                  class="font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-red-600 hover:text-gray-600 hover:bg-red-300"
+                >
+                  Reject
+                </button>
+              </form>
+            </div>
+            <div class="col-span-2">
+              <form action="/logout" method="post" id="logout">
+                <button
+                  type="submit"
+                  class="font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-green-600 hover:text-gray-600 hover:bg-green-300"
+                >
+                  Logout
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <aside
+      id="default-sidebar"
+      class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      aria-label="Sidebar"
+    >
+      <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <ul class="space-y-2 font-medium">
+          <li class="py-4">
+
+            <span class="ms-3 text-2xl">Admin {{adminname}}</span>
+
+          </li>
+          <hr />
+          <li>
+            <a
+              type="submit"
+              href="/adminhistory"
+              class="flex items-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                viewBox="0 0 512 512.44"
+                width="25"
+                height="25"
+              ><path
+                  fill-rule="nonzero"
+                  d="M216.81 155.94c0-10.96 8.88-19.84 19.84-19.84 10.95 0 19.83 8.88 19.83 19.84v120.75l82.65 36.33c10.01 4.41 14.56 16.1 10.15 26.11-4.41 10.02-16.1 14.56-26.11 10.15l-93.5-41.1c-7.51-2.82-12.86-10.07-12.86-18.57V155.94zM9.28 153.53c-.54-1.88-.83-3.87-.83-5.92l.16-73.41c0-11.84 9.59-21.43 21.43-21.43 11.83 0 21.43 9.59 21.43 21.43l-.06 27.86a255.053 255.053 0 0144.08-45.53c16.78-13.47 35.57-25.04 56.18-34.24 64.6-28.81 134.7-28.73 195.83-5.31 60.67 23.24 112.56 69.47 141.51 133.25.56 1.01 1.03 2.07 1.41 3.17 28.09 64.15 27.83 133.6 4.6 194.21-22.33 58.29-65.87 108.46-125.8 137.98-.38.22-.76.42-1.16.62-12.44 6.14-25.46 11.26-38.74 15.3-4.96 1.46-10.12.99-14.68-1.46-15.1-8.13-12.86-30.46 3.53-35.45 8.78-2.7 17.32-5.87 25.67-9.6.41-.21.84-.4 1.27-.58 2-.91 3.99-1.85 5.96-2.82.53-.26 1.07-.5 1.62-.71 50.62-25.1 87.42-67.61 106.34-116.98 19.93-52.04 20.04-111.64-4.41-166.46l-.01-.02c-24.46-54.82-68.84-94.54-120.82-114.45-52.04-19.94-111.63-20.04-166.45 4.41a217.791 217.791 0 00-47.75 29.11 216.133 216.133 0 00-37.71 39.04l17.1-.97c11.83-.65 21.96 8.42 22.61 20.26.65 11.83-8.42 21.96-20.26 22.61l-69.71 3.94c-11.02.6-20.56-7.21-22.34-17.85zm237.66 358.9c17.55.55 26.69-20.55 14.26-32.98-3.57-3.45-7.9-5.35-12.86-5.56-11.92-.39-23.48-1.72-35.19-4.01-7.52-1.44-14.84 1.44-19.39 7.59-8.15 11.46-1.97 27.43 11.85 30.22a256.37 256.37 0 0041.33 4.74zm-119.12-34.22c11.75 6.79 26.54-.08 28.81-13.5 1.23-7.97-2.34-15.6-9.26-19.74-10.27-5.99-19.83-12.71-28.99-20.28-13.76-11.34-34.16.32-31.36 17.95.81 4.7 3.05 8.59 6.69 11.68a255.166 255.166 0 0034.11 23.89zm-88.67-86.32c8.88 14.11 30.17 11.17 34.88-4.84 1.51-5.36.76-10.83-2.17-15.57-6.29-10.03-11.7-20.52-16.31-31.43-6.2-14.74-26.7-15.97-34.56-2.04-2.94 5.15-3.3 11.48-1 16.94 5.36 12.77 11.8 25.21 19.16 36.94zM.66 274.2c.62 8.63 6.81 15.71 15.27 17.51 12.64 2.53 23.99-7.36 23.19-20.23-.85-11.87-.73-23.54.32-35.4.59-7.04-2.49-13.66-8.31-17.67-12.22-8.25-28.69-.5-30.08 14.17a257.06 257.06 0 00-.39 41.62z"
+                /></svg>
+
+              <span class="flex-1 ms-3">History & Ticket Status</span>
+            </a>
+          </li>
+          <li>
+            <a
+              type="submit"
+              href="/userlist"
+              class="flex items-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group"
+            >
+              <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 122.88 112.5"
+                style="enable-background:new 0 0 122.88 112.5"
+                xml:space="preserve"
+                width="25"
+                height="25"
+              ><style
+                  type="text/css"
+                >.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><path
+                    class="st0"
+                    d="M12.56,87.39c6.93,0,12.56,5.62,12.56,12.56c0,6.93-5.62,12.56-12.56,12.56C5.62,112.5,0,106.88,0,99.95 C0,93.01,5.62,87.39,12.56,87.39L12.56,87.39z M35.07,88.24h86.38c0.79,0,1.43,0.64,1.43,1.43v19.93c0,0.79-0.64,1.43-1.43,1.43 H35.07c-0.79,0-1.43-0.64-1.43-1.43V89.67C33.64,88.88,34.29,88.24,35.07,88.24L35.07,88.24z M35.07,44.7h86.38 c0.79,0,1.43,0.64,1.43,1.43v19.93c0,0.79-0.64,1.43-1.43,1.43H35.07c-0.79,0-1.43-0.64-1.43-1.43V46.13 C33.64,45.34,34.29,44.7,35.07,44.7L35.07,44.7z M35.07,1.16h86.38c0.79,0,1.43,0.64,1.43,1.43v19.93c0,0.79-0.64,1.43-1.43,1.43 H35.07c-0.79,0-1.43-0.64-1.43-1.43V2.59C33.64,1.8,34.29,1.16,35.07,1.16L35.07,1.16z M12.56,43.69c6.93,0,12.56,5.62,12.56,12.56 c0,6.93-5.62,12.56-12.56,12.56C5.62,68.81,0,63.19,0,56.25C0,49.32,5.62,43.69,12.56,43.69L12.56,43.69z M12.56,0 c6.93,0,12.56,5.62,12.56,12.56c0,6.93-5.62,12.56-12.56,12.56C5.62,25.11,0,19.49,0,12.56C0,5.62,5.62,0,12.56,0L12.56,0z"
+                  /></g></svg>
+
+              <span class="flex-1 ms-3">UserList</span>
+            </a>
+          </li>
+          <li>
+            <button
+              onclick="togglediv('open')"
+              class="flex items-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="25"
+                height="25"
+                viewBox="0 0 50 50"
+              >
+                <path
+                  d="M 11 4 C 7.101563 4 4 7.101563 4 11 L 4 39 C 4 42.898438 7.101563 46 11 46 L 39 46 C 42.898438 46 46 42.898438 46 39 L 46 15 L 44 17.3125 L 44 39 C 44 41.800781 41.800781 44 39 44 L 11 44 C 8.199219 44 6 41.800781 6 39 L 6 11 C 6 8.199219 8.199219 6 11 6 L 37.40625 6 L 39 4 Z M 43.25 7.75 L 23.90625 30.5625 L 15.78125 22.96875 L 14.40625 24.4375 L 23.3125 32.71875 L 24.09375 33.4375 L 24.75 32.65625 L 44.75 9.03125 Z"
+                ></path>
+              </svg>
+              <span class="flex-1 ms-3">Change User Role</span>
+            </button>
+          </li>
+          <li>
+            <a
+              href="/form"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1048.06 1229.64"
+                width="25"
+                height="25"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M316.4 879.67c-17.52 0-31.69-14.17-31.69-31.69s14.17-31.69 31.69-31.69h236.24c17.52 0 31.69 14.17 31.69 31.69s-14.17 31.69-31.69 31.69H316.4zm0-811.63c-17.52 0-31.69-14.17-31.69-31.69S298.88 4.66 316.4 4.66h420.5c17.52 0 31.69 14.17 31.69 31.69S754.42 68.04 736.9 68.04H316.4zM73.45 0h900.16c20.25 0 38.61 8.29 51.77 21.45s21.45 31.52 21.45 51.77v1078.58c0 20.25-8.29 38.61-21.45 51.77s-31.52 21.45-51.77 21.45H73.45c-20.25 0-38.61-8.29-51.77-21.45S0 1151.05 0 1130.8V73.22C0 52.97 8.29 34.61 21.45 21.45S53.2 0 73.45 0zm900.16 58.93H73.45c-2.75 0-5.41 1.14-7.37 3.1s-3.1 4.62-3.1 7.37v1078.58c0 2.75 1.14 5.41 3.1 7.37s4.62 3.1 7.37 3.1h900.16c2.75 0 5.41-1.14 7.37-3.1s3.1-4.62 3.1-7.37V69.4c0-2.75-1.14-5.41-3.1-7.37s-4.62-3.1-7.37-3.1zM316.4 608.08c-17.52 0-31.69-14.17-31.69-31.69s14.17-31.69 31.69-31.69h420.5c17.52 0 31.69 14.17 31.69 31.69s-14.17 31.69-31.69 31.69H316.4z"
+                  fill-rule="nonzero"
+                />
+              </svg>
+
+              <span class="flex-1 ms-3 whitespace-nowrap">New Form</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <div class="md:py-8 py-14"></div>
+    <div class="p-4 sm:ml-64">
+      <div
+        class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
+      >
+        <div>
+          <div class="relative overflow-x-scroll shadow-md sm:rounded-lg">
+            <table
+              class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+            >
+              <thead
+                class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
+              >
+                <tr>
+                  <th scope="col" class="p-4"></th>
+                  <th scope="col" class="px-6 py-3">Requestor</th>
+                  <th scope="col" class="px-6 py-3">Department Name</th>
+                  <th scope="col" class="px-6 py-3">Authorization Request</th>
+                  <th scope="col" class="px-6 py-3">Date recieved</th>
+                  <th scope="col" class="px-6 py-3">Authorized by</th>
+                  <th scope="col" class="px-6 py-3">Authorization Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each Form}}
+                  <tr
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  >
+                    <td class="w-4 p-4">
+                      <div class="flex items-center">
+                        <input
+                          form="accept"
+                          id={{_id}}
+                          type="checkbox"
+                          name="formcheckbox"
+                          value={{_id}}
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <input
+                          form="reject"
+                          id="{{_id}},reject"
+                          type="checkbox"
+                          name="formcheckbox"
+                          value={{_id}}
+                          class="w-4 h-4 text-blue-600 hidden bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          for="checkbox-table-search-1"
+                          class="sr-only"
+                        >checkbox</label>
+                      </div>
+                    </td>
+                    <form method="post" action="/authorize">
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+
+                        <button
+                          class="hover:text-blue-400 underline"
+                          type="submit"
+                          name="objectid"
+                          value={{_id}}
+                        >
+                          {{Requestor}}
+                        </button>
+
+                      </th>
+                    </form>
+                    <td class="px-6 py-4">{{DeptName}}</td>
+                    <td class="px-6 py-4">{{Authreq}}</td>
+                    <td class="px-6 py-4">{{Date}}</td>
+                    <td class="px-6 py-4">{{authgiven}}</td>
+                    <td class="px-6 py-4">{{authstatus}}</td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div></div></div>
+    <div
+      id="userinput"
+      class="bg-black fixed top-0 w-full h-full bg-opacity-50 py-4 px-4"
+    >
+      <center>
+        <div id="userinput">
+          <div class="md:w-1/2 bg-white shadow-lg rounded-lg">
+            <div class="flex grid-cols-3">
+              <div class="text-3xl underline w-full px-5 py-5 text-left">
+                <span>Update User Type</span>
+              </div>
+              <hr />
+              <div class="flex py-3">
+                <div class="px-2 col-span-1">
+                  <a
+                    href="/admin"
+                    class="col-span-6 font-mono border-2 px-4 rounded-2xl text-center border-gray-300 hover:border-black hover:text-gray-600"
+                  >
+                    x
+                  </a>
+                </div>
+              </div>
+            </div>
+            <form action="/updateuser" method="post">
+              <div class="px-3 py-3 text-left">
+                <div class="py-3 px-3 shadow sm:col-span-4">
+                  <div class="md:flex">
+                    <button
+                      type="button"
+                      id="dropdownSearchButton"
+                      data-dropdown-toggle="dropdownSearch"
+                      class="md:w-1/3 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    >
+                      User List
+                    </button>
+                    <div
+                      id="dropdownSearch"
+                      class="z-10 hidden bg-white rounded-lg shadow w-80 dark:bg-gray-700"
+                    >
+                      <ul
+                        class="h-48 px-3 pb-3 overflow-y-auto overflow-x-auto text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownSearchButton"
+                      >
+                        <li class="py-2">
+                          {{#each users}}
+                            <div
+                              class="items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 relative"
+                            >
+                              <input
+                                id="{{this.name}}"
+                                type="checkbox"
+                                name="Users"
+                                onchange="disablesubmit()"
+                                value="{{this.SAPID}}"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                              />
+                              <label
+                                for="{{this.name}}"
+                                class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                              >{{this.name}}</label>
+
+                              <!-- Hidden SAPID that shows on hover -->
+                              <span
+                                class="text-xs text-gray-500 absolute right-2 top-2 opacity-100"
+                              >
+                                {{this.SAPID}}
+                              </span>
+                            </div>
+                            <hr />
+                          {{/each}}
+                        </li>
+                      </ul>
+
+                    </div>
+                    <button
+                      id="dropdownDefaultButton"
+                      data-dropdown-toggle="dropdown"
+                      class="md:w-1/3 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      <span
+                        id="dropdowntext"
+                        name="dropdowntext"
+                        value="Dropdown button"
+                      >Department List</span>
+                    </button>
+                    <div
+                      id="dropdown"
+                      class="w-60 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
+                    >
+                      <ul
+                        class="py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-scroll max-h-40"
+                        id="Departmentlist"
+                        aria-labelledby="dropdownDefaultButton"
+                      >
+                        <li class="w-full">{{#each dept_Name}}<button
+                              type="button"
+                              id="{{this}}"
+                              onclick="toggleddt(this.id);"
+                              class="block px-4 py-2 hover:bg-gray-100 w-full dark:hover:bg-gray-600 dark:hover:text-white"
+                            >{{this}}</button>{{/each}}
+                        </li>
+                      </ul>
+                    </div>
+                    <button
+                      id="AreadropdownSearchButton"
+                      data-dropdown-toggle="AreadropdownSearch"
+                      class="md:w-1/3 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      Area List
+                    </button>
+                    <div
+                      class="error text-red-600 px-3 py-3"
+                      id="error-messagearea"
+                    ></div>
+                    <div
+                      id="AreadropdownSearch"
+                      class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700"
+                    >
+                      <ul
+                        class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownSearchButton"
+                      >
+                        <li class="py-2">
+                          {{#each GA}}
+                            <div
+                              class="items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                            >
+                              <input
+                                id="{{this}}"
+                                type="checkbox"
+                                name="geo"
+                                onchange="disablesubmit()"
+                                value="{{this}}"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                              />
+                              <label
+                                for="this"
+                                class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                              >{{this}}</label>
+                            </div>
+                            <hr />
+                          {{/each}}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
+                    User Type
+                  </h3>
+                  <ul
+                    class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  >
+                    <li
+                      class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                    >
+                      <div class="flex items-center ps-3">
+                        <input
+                          id="AuthreqL"
+                          type="radio"
+                          onclick="toggledept()"
+                          name="Utype"
+                          value="Admin"
+                          required
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Admin
+                        </label>
+                      </div>
+                    </li>
+                    <li
+                      class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                    >
+                      <div class="flex items-center ps-3">
+                        <input
+                          id="AuthreqL"
+                          type="radio"
+                          name="Utype"
+                          onclick="toggledept()"
+                          value="User"
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >User</label>
+                      </div>
+                    </li>
+                    <li
+                      class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
+                    >
+                      <div class="flex items-center ps-3">
+                        <input
+                          id="HOD"
+                          type="radio"
+                          name="Utype"
+                          onclick="toggledept()"
+                          value="HOD"
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          class="py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Head Of Department</label>
+                        <div class="px-10 hidden" id="deptlist">
+                        </div>
+                      </div>
+                    </li>
+
+                  </ul>
+                </div>
+                <div class="px-3">
+                  <button
+                    type="submit"
+                    onclick="disable_alert()"
+                    class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-3 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                  >
+                    Submit
+                  </button>
+                  <input
+                    type="text"
+                    class="hidden"
+                    id="ddtvalue"
+                    name="DDTvalue"
+                    value=""
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </center>
+    </div>
+
+  </body>
+  {{!-- prettier-ignore --}}
+  <script>
+      function Errmsg(errmsg){
+        if(errmsg==""){
+          document.getElementById("errmsg").style.display="none"
+        }
+        else{
+          document.getElementById("errmsg").style.display="block"
+        }
+      }
+      function check() { 
+      var checkboxes = document.getElementsByName("formcheckbox");
+      var checkedCheckboxes = [];
+      var reject=[]
+      for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+          checkedCheckboxes.push(checkboxes[i].id);
+        }
+      }
+
+      // Make sure each checkbox's "reject" counterpart is also checked
+      for (let j = 0; j < checkedCheckboxes.length; j++) {
+        let rejectCheckbox = document.getElementById(checkedCheckboxes[j] + ",reject");
+        reject.push(rejectCheckbox[i])
+        if (rejectCheckbox) {
+          rejectCheckbox.checked = true;
+        }
+      }
+    }
+      function togglediv(state){ if(state=="close"){
+      document.getElementById("userinput").style.display="none" } 
+      else{
+      document.getElementById("userinput").style.display="block" } }
+    function toggleddt(ddtoption){
+        document.getElementById("dropdowntext").innerHTML=ddtoption
+        document.getElementById("ddtvalue").value=ddtoption
+      }
+      function toggledept(){
+        if(document.getElementById("HOD").checked){
+          document.getElementById("deptlist").style.display="block"
+        }
+        else{
+          document.getElementById("deptlist").style.display="none"
+        }
+      }
+      function checkempty(){
+        const checkboxes = document.querySelectorAll('input[name="formcheckbox"]');
+        
+        // Convert NodeList to an Array and check if any checkbox is checked
+        const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        
+        if (!isChecked) {
+          // If no checkbox is checked, prevent form submission and show an alert
+          event.preventDefault();
+          alert("Please select at least one Form.");
+        }
+      }
+      function checkemptyreject(){
+        // Select all checkboxes with the name 'option'
+        const checkboxes = document.querySelectorAll('input[name="formcheckbox"]');
+        
+        // Convert NodeList to an Array and check if any checkbox is checked
+        const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        
+        if (!isChecked) {
+          // If no checkbox is checked, prevent form submission and show an alert
+          event.preventDefault();
+          alert("Please select at least one Form.");
+        }
+      }
+      function disable_alert(){
+        const checkboxes = document.querySelectorAll('input[name="Users"]');
+        let isChecked = false;
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                isChecked = true;
+            }
+        });
+        if (!isChecked) {
+            event.preventDefault();
+            alert("Please select a User to update")
+        } 
+      }
+    </script>
+</html>
