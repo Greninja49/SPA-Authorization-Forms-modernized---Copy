@@ -5,10 +5,12 @@ const path = require("path");
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
 const mongoose = require("./db/conn.js");
+const multer = require("multer");
 const formmodel = require("./models/formdata.js");
 const acceptmodel = require("./models/accepted forms.js");
 const rejectmodel = require("./models/rejected forms.js");
 const usermodel = require("./models/newuser.js");
+const { spawn } = require("child_process");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const nodemailer = require("nodemailer");
@@ -73,6 +75,17 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// form upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Directory to save the uploaded images
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+const upload = multer({ storage });
 // Rendered data
 const ga = [
   "Ajmer",
@@ -980,7 +993,7 @@ app.post("/updateuser", async (req, res) => {
 app.post("/Emailverification", async (req, res) => {
   const { Name, Email, password, geo, Dept, SAPID } = req.body;
   const useremailcheck = await usermodel.findOne({ Email: Email });
-  const allowedDomain = process.env.Domian;
+  const allowedDomain = "gmail.com";
   const emailDomain = Email.split("@")[1];
   if (useremailcheck) {
     req.session.message = "Email ID already in use";
@@ -1070,6 +1083,85 @@ app.post("/toggle", async (req, res) => {
       console.log("Form ID:", formid);
     }
     res.redirect("/adminhistory");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.post("/upload", upload.single("image"), async (req, res) => {
+  const uploadedImage = req.file;
+
+  if (!uploadedImage) {
+    return res.redirect("/uploadimage");
+  }
+
+  const imagePath = path.resolve(uploadedImage.path);
+
+  const pythonProcess = spawn("python", ["extract_text.py", imagePath]);
+
+  let result = "";
+  pythonProcess.stdout.on("data", (data) => {
+    result += data.toString();
+  });
+
+  pythonProcess.stderr.on("data", (error) => {
+    console.error(`Error: ${error.toString()}`);
+  });
+
+  pythonProcess.on("close", async (code) => {
+    if (code !== 0) {
+      return res.status(500).send("Error processing the image.");
+    }
+
+    let extractedData;
+    try {
+      extractedData = JSON.parse(result);
+    } catch (error) {
+      return res.status(500).send("Error parsing extracted data.");
+    }
+
+    const formview = new formmodel({
+      Requestor: extractedData["Requester Name"] || "Unknown",
+      SAPID: extractedData["SAP Login ID"] || "Unknown",
+      DeptName: extractedData["Department"] || "Unknown",
+      Areaname: extractedData["Geographical Area"] || "Unknown",
+      Authreq: [
+        extractedData["Transaction"] !== "null"
+          ? `Transaction: [${extractedData["Transaction"]}]`
+          : "",
+        extractedData["Report"] !== "null"
+          ? `Report: [${extractedData["Report"]}]`
+          : "",
+        extractedData["Other Object/Activity"] !== "null"
+          ? `Other Object/Activity: [${extractedData["Other Object/Activity"]}]`
+          : "",
+      ]
+        .filter(Boolean)
+        .join(" "),
+      systype: extractedData["System"] || "Unknown",
+      Client: extractedData["Client"] || "Unknown",
+      Date: here,
+      authgiven: null,
+      authorized: 0,
+      HODsubtag: "",
+      authstatus: "waiting",
+      ticketstatus: "open",
+    });
+
+    try {
+      await formview.save();
+      console.log("Extracted Data saved to database:", formview);
+      res.redirect("/");
+    } catch (err) {
+      console.error("Error saving form:", err);
+      return res.status(500).send("Error saving form data.");
+    }
+  });
+});
+
+app.get("/uploadimage", (req, res) => {
+  if (req.session.currentuser && req.session.currentuser.tag == "Admin") {
+    res.render("UploadImage.hbs");
   } else {
     res.redirect("/");
   }

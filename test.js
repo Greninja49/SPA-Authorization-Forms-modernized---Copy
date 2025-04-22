@@ -150,3 +150,57 @@ transporter.sendMail(mailOptions, function (error, info) {
     console.log("Email sent: " + info.response);
   }
 });
+
+//image upload fake
+app.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Image file is required" });
+    }
+
+    const pythonUrl = "http://localhost:5000/process-image";
+    const imagePath = path.join(__dirname, "uploads", req.file.filename);
+
+    const formData = {
+      imagePath,
+    };
+
+    console.log("Sending to Python server:", formData);
+    const formviewf = new formmodel({
+      Requestor: "Hadis Khan",
+      SAPID: "HadisKhanSAP1",
+      DeptName: "Admin IR and ER",
+      Areaname: "Ajmer,Delhi,",
+      Authreq: "null",
+      systype: "null",
+      Client: "null",
+      Date: "19/11/2024",
+      authgiven: "null",
+      authorized: 0,
+      HODsubtag: "",
+      authstatus: "waiting",
+      ticketstatus: "open",
+    });
+    const resultf = await formviewf.save();
+
+    const pythonResponse = await axios.post(pythonUrl, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Response from Python server:", pythonResponse.data);
+
+    const processedData = pythonResponse.data;
+    console.log(processedData);
+    const formview = new formmodel({
+      processedData,
+    });
+
+    const result = await formview.save();
+
+    return res.status(200).json(result);
+  } catch (error) {
+    res.redirect("/");
+  }
+});
